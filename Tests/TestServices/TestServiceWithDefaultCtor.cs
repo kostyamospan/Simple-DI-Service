@@ -1,6 +1,6 @@
 ﻿namespace Tests.TestServices
 {
-    public class TestServiceWithDefaultCtor
+    internal  class TestServiceWithDefaultCtor
     {
         
     }

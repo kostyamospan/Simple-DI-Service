@@ -1,6 +1,6 @@
 ﻿namespace Tests.TestServices
 {
-    public class TestServiceWithSingleConstructorArgument
+    internal  class TestServiceWithSingleConstructorArgument
     {
         public readonly TestServiceWithDefaultCtor Service;
 
