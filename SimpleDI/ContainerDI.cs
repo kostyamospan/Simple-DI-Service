@@ -5,11 +5,11 @@ namespace SimpleDI
 {
     public class ContainerDI
     {
-        public IBuilderDi BuilderDi { get; private set; }
+        public IBuilderDi BuilderDi { get; private set; } = new BuilderDI();
         
-        public ContainerDI(Func<IBuilderDi, IBuilderDi> build)
+        public ContainerDI(Action<IBuilderDi> build)
         {
-            BuilderDi = build(new BuilderDI());
+            build(BuilderDi);
         }
     }   
 }
