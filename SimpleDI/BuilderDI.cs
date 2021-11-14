@@ -37,6 +37,9 @@ namespace SimpleDI
             if (!IsRegistered(type))
                 throw new UnregisteredServiceException(type);
 
+            if (resolvedTypes.Contains(type)) throw new CircularDependencyException(type);
+            resolvedTypes.Add(type);
+                
             var constructor
                 = ArgumentsParser.GetConstructor(type);
 
@@ -45,11 +48,7 @@ namespace SimpleDI
             foreach (var argument in constructor.Arguments)
             {
                 var resolvedType = GetRegisteredServiceImpl(argument.Type, resolvedTypes);
-
                 if (resolvedType is null) throw new ArgumentNullException(nameof(resolvedType));
-                if (resolvedTypes.Contains(argument.Type)) throw new CircularDependencyException(argument.Type);
-
-                resolvedTypes.Add(argument.Type);
                 resolvedTypeArguments.Add(resolvedType);
             }
 
