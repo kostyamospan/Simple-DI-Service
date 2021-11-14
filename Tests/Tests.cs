@@ -20,7 +20,7 @@ namespace Tests
         }
 
         [Fact]
-        public void RegisterDependencyThatAlreadyExists()
+        public void RegisterDuplicatedService()
         {
             Assert.Throws<DuplicatedServicesException>(() =>
             {
@@ -32,7 +32,7 @@ namespace Tests
                     });
             });
         }
-        
+
         [Fact]
         public void RegisterDependenciesWithConstructorParameters()
         {
@@ -45,7 +45,19 @@ namespace Tests
 
             var service = diContainer.BuilderDi.GetRegisteredService<TestServiceWithSingleConstructorArgument>();
 
-            Assert.NotNull(service?.Service);            
+            Assert.NotNull(service?.Service);
+        }
+
+        [Fact]
+        public void RegisterServiceWithCircularDependency()
+        {
+            var diContainer = new ContainerDI(
+                di => { di.RegisterService<TestServiceWithCircularDependency>(); });
+
+            Assert.Throws<CircularDependencyException>(() =>
+            {
+                var service = diContainer.BuilderDi.GetRegisteredService<TestServiceWithCircularDependency>();
+            });
         }
     }
 }
